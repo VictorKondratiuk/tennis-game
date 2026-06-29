@@ -1,0 +1,6 @@
+{
+  "name": "Pong Game",
+  "description": "Класична 2D гра Понг для двох гравців на одній клавіатурі.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

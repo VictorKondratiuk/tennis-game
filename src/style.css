@@ -1,0 +1,232 @@
+/* Стилі для гри Понг — Тепла намальована тема (Скетчбук/Теніс) */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Patrick+Hand&display=swap');
+
+:root {
+  --bg-color: #f6f3eb;        /* Теплий папір / вівсянка */
+  --card-bg: #faf7f0;         /* Колір аркуша скетчбука */
+  --canvas-bg: #fffefe;       /* Чистий аркуш під ігрове поле */
+  --text-primary: #1e3d59;    /* Темно-синій олівець */
+  --text-secondary: #5e82a6;  /* Приглушений синій */
+  --accent-blue: #3a86c8;     /* Олівцевий синій акцент */
+  --accent-yellow: #e5b842;   /* Охра/колір дерева ракетки з картинки */
+  --border-color: #1e3d59;    /* Товста лінія контуру олівця */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Patrick Hand', 'Fredoka', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  font-size: 1.25rem;
+}
+
+/* Контейнер гри - імітує заокруглену картку з картинки */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--card-bg);
+  padding: 2.5rem;
+  border-radius: 2.5rem;
+  border: 4px solid var(--border-color);
+  box-shadow: 8px 8px 0px rgba(30, 61, 89, 0.12);
+  max-width: 900px;
+  width: 95%;
+  margin: 1.5rem auto;
+}
+
+h1 {
+  font-family: 'Fredoka', 'Patrick Hand', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
+}
+
+/* Рахунок гри */
+.score-container {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-family: 'Fredoka', monospace;
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  user-select: none;
+}
+
+#player1-score {
+  color: var(--accent-blue);
+  text-shadow: 2px 2px 0px rgba(30, 61, 89, 0.1);
+}
+
+#player2-score {
+  color: var(--accent-yellow);
+  text-shadow: 2px 2px 0px rgba(30, 61, 89, 0.1);
+}
+
+.divider {
+  color: var(--text-secondary);
+  font-size: 3rem;
+}
+
+/* Ігрове поле (Canvas) з олівцевим контуром */
+canvas {
+  background-color: var(--canvas-bg);
+  border-radius: 1.5rem;
+  border: 4px solid var(--border-color);
+  box-shadow: 4px 4px 0px rgba(30, 61, 89, 0.08);
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Панель керування */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 3px dashed rgba(30, 61, 89, 0.15);
+}
+
+.control-info {
+  flex: 1;
+}
+
+.control-info.text-right {
+  text-align: right;
+}
+
+.control-info h3 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.control-info p {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.control-info.text-right p {
+  justify-content: flex-end;
+}
+
+/* Оформлення клавіш у теплому олівцевому стилі */
+.key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fffdec;
+  border: 2px solid var(--border-color);
+  border-bottom-width: 4px;
+  border-radius: 0.5rem;
+  padding: 0.1rem 0.6rem;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  box-shadow: 1px 2px 0px rgba(30, 61, 89, 0.15);
+}
+
+/* Модальне вікно (Переможець / Старт) */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(30, 61, 89, 0.4);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.modal.hidden {
+  display: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-content {
+  background-color: var(--card-bg);
+  padding: 3rem;
+  border-radius: 2rem;
+  text-align: center;
+  border: 4px solid var(--border-color);
+  box-shadow: 8px 8px 0px rgba(30, 61, 89, 0.2);
+  max-width: 450px;
+  width: 90%;
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+.modal-content h2 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.modal-content h2.winner-1 {
+  color: var(--accent-blue);
+  text-shadow: 2px 2px 0px rgba(30, 61, 89, 0.1);
+}
+
+.modal-content h2.winner-2 {
+  color: var(--accent-yellow);
+  text-shadow: 2px 2px 0px rgba(30, 61, 89, 0.1);
+}
+
+/* Кнопка зіграти ще раз */
+button {
+  background-color: var(--accent-yellow);
+  color: var(--text-primary);
+  border: 3px solid var(--border-color);
+  border-bottom-width: 6px;
+  padding: 0.75rem 2.2rem;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  box-shadow: 4px 4px 0px rgba(30, 61, 89, 0.15);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 6px 0px rgba(30, 61, 89, 0.15);
+}
+
+button:active {
+  transform: translateY(2px);
+  border-bottom-width: 3px;
+  box-shadow: 2px 2px 0px rgba(30, 61, 89, 0.15);
+}

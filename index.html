@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Понг — Гра для двох</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <h1>Понг</h1>
+      <div class="score-container">
+        <span id="player1-score">0</span>
+        <span class="divider">:</span>
+        <span id="player2-score">0</span>
+      </div>
+      <canvas id="pongCanvas" width="800" height="480"></canvas>
+      <div class="controls">
+        <div class="control-info">
+          <h3>Гравець 1 (Ліворуч)</h3>
+          <p><span class="key">W</span> — Вгору</p>
+          <p><span class="key">S</span> — Вниз</p>
+        </div>
+        <div class="control-info text-right">
+          <h3>Гравець 2 (Праворуч)</h3>
+          <p>Вгору — <span class="key">▲</span></p>
+          <p>Вниз — <span class="key">▼</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Модальне вікно переможця -->
+    <div id="winnerModal" class="modal hidden">
+      <div class="modal-content">
+        <h2 id="winnerText">Гравець 1 переміг!</h2>
+        <button id="restartBtn">Зіграти ще раз</button>
+      </div>
+    </div>
+
+    <script type="module" src="/src/script.js"></script>
+  </body>
+</html>
